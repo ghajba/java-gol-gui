@@ -30,11 +30,11 @@ public class GameBoard extends JPanel implements Runnable
     private boolean running = false;
 
 
-    public GameBoard(int sizeX, int sizeY, Board board)
+    public GameBoard(int sizeX, int sizeY)
     {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.board = board;
+        this.board = new Board(this.sizeX,this.sizeY);
         this.addMouseListener(new MouseClickListener());
 
     }
@@ -44,11 +44,11 @@ public class GameBoard extends JPanel implements Runnable
 //        g.drawRect((int)getParent().getBounds().getX(),(int)getParent().getBounds().getY(),(int)getParent().getBounds().getWidth(),(int)getParent().getBounds().getHeight());
         for(int i = 0; i <= sizeX; i++)
         {
-            g.drawLine(i*SQUARE_SIZE+PADDING,PADDING,i*SQUARE_SIZE+PADDING,sizeX*SQUARE_SIZE+PADDING);
+            g.drawLine(i*SQUARE_SIZE+PADDING,PADDING,i*SQUARE_SIZE+PADDING,sizeY*SQUARE_SIZE+PADDING);
         }
         for(int j = 0; j <= sizeY; j++)
         {
-            g.drawLine(PADDING, j*SQUARE_SIZE+PADDING,sizeY*SQUARE_SIZE + PADDING,j*SQUARE_SIZE+PADDING);
+            g.drawLine(PADDING, j*SQUARE_SIZE+PADDING,sizeX*SQUARE_SIZE + PADDING,j*SQUARE_SIZE+PADDING);
         }
 
         for(int x = 0; x < sizeX; x++)
@@ -76,9 +76,22 @@ public class GameBoard extends JPanel implements Runnable
         this.running = running;
     }
 
-    private void addCell(int x, int y)
+    public void clearBoard()
     {
-        board.getCellAt(x,y).setCurrentState(CellState.ALIVE);
+        for(int i = 0; i < sizeX; i++)
+        {
+            for(int j = 0; j < sizeY; j++)
+            {
+                board.getCellAt(i,j).setCurrentState(CellState.DEAD);
+            }
+        }
+        updateBoard();
+    }
+
+    public void updateBoard()
+    {
+        this.revalidate();
+        this.repaint();
     }
 
     @Override
@@ -95,10 +108,14 @@ public class GameBoard extends JPanel implements Runnable
             {
 
                 board.nextRound();
-                this.revalidate();
-                this.repaint();
+                updateBoard();
             }
         }
+    }
+
+    private void addCell(int x, int y)
+    {
+        board.getCellAt(x,y).setCurrentState(CellState.ALIVE);
     }
 
     private static boolean containsLiveCell(Board board)
