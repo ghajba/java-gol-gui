@@ -6,6 +6,7 @@ import gol.rule.CellState;
 import hu.hajba.gol.Point;
 
 import javax.swing.JPanel;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +33,7 @@ public class GameBoard extends JPanel implements Runnable
 
     public GameBoard(int sizeX, int sizeY)
     {
+        this.setBackground(Color.WHITE);
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.board = new Board(this.sizeX,this.sizeY);

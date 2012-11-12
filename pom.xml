@@ -23,5 +23,42 @@
         </dependency>
     </dependencies>
 
-    
+    <scm>
+        <connection>scm:git:git@github.com:ghajba/java-gol-gui</connection>
+        <url>scm:git:git@github.com:ghajba/java-gol-gui</url>
+        <developerConnection>scm:git:git@github.com:ghajba/java-gol-gui</developerConnection>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>hu.hajba.gol.Main</mainClass>
+                            <packageName>hu.hajba.gol</packageName>
+                        </manifest>
+                        <manifestEntries>
+                            <mode>development</mode>
+                            <url>${pom.url}</url>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.3.2</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
