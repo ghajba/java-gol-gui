@@ -39,20 +39,21 @@ public class GameBoard extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         g.clearRect((int) getParent().getBounds().getX(), (int) getParent().getBounds().getY(), (int) getParent().getBounds().getWidth(),
                 (int) getParent().getBounds().getHeight());
-        // g.drawRect((int)getParent().getBounds().getX(),(int)getParent().getBounds().getY(),(int)getParent().getBounds().getWidth(),(int)getParent().getBounds().getHeight());
+        g.setColor(Color.BLACK);
+        for (int x = 0; x < this.sizeX; x++) {
+            for (int y = 0; y < this.sizeY; y++) {
+                if (CellState.ALIVE.equals(this.board.getCellAt(x, y).getCurrentState())) {
+                    g.fillRect(x * SQUARE_SIZE + PADDING, y * SQUARE_SIZE + PADDING, SQUARE_SIZE, SQUARE_SIZE);
+                }
+            }
+        }
+
+        g.setColor(Color.DARK_GRAY);
         for (int i = 0; i <= this.sizeX; i++) {
             g.drawLine(i * SQUARE_SIZE + PADDING, PADDING, i * SQUARE_SIZE + PADDING, this.sizeY * SQUARE_SIZE + PADDING);
         }
         for (int j = 0; j <= this.sizeY; j++) {
             g.drawLine(PADDING, j * SQUARE_SIZE + PADDING, this.sizeX * SQUARE_SIZE + PADDING, j * SQUARE_SIZE + PADDING);
-        }
-
-        for (int x = 0; x < this.sizeX; x++) {
-            for (int y = 0; y < this.sizeY; y++) {
-                if (CellState.ALIVE.equals(this.board.getCellAt(x, y).getCurrentState())) {
-                    g.fillRect(x * SQUARE_SIZE + PADDING + 3, y * SQUARE_SIZE + PADDING + 3, SQUARE_SIZE - 5, SQUARE_SIZE - 5);
-                }
-            }
         }
     }
 
@@ -86,7 +87,7 @@ public class GameBoard extends JPanel implements Runnable {
             try {
                 Thread.sleep(500);
             } catch (final InterruptedException e) {
-                e.printStackTrace(); // To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
             if (this.running && containsLiveCell(this.board)) {
 
