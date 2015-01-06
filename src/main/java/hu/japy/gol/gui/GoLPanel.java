@@ -85,7 +85,6 @@ public class GoLPanel extends JPanel {
             this.remove(this.gameBoard);
         }
         this.gameBoard = new GameBoard(sizeX, sizeY);
-        // gameBoard.initBoard(Arrays.asList(new Point(1, 3), new Point(2, 3), new Point(3, 3)));
         final int boardWidth = sizeX * GameBoard.getSquareDisplaySize();
         final int boardHeight = sizeY * GameBoard.getSquareDisplaySize();
         this.gameBoard.setBounds(160, 10, boardWidth, boardHeight);
@@ -96,7 +95,6 @@ public class GoLPanel extends JPanel {
         }
         this.revalidate();
         this.repaint();
-        // gameBoard.updateBoard();
         new Thread(this.gameBoard).start();
     }
 

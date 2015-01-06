@@ -1,4 +1,4 @@
-package hu.japy.gol;
+package hu.japy.gol.gui;
 
 /**
  * @author GHajba

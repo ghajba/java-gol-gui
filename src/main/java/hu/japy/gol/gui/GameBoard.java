@@ -1,9 +1,6 @@
 package hu.japy.gol.gui;
 
-import gol.board.Board;
-import gol.board.Cell;
-import gol.rule.CellState;
-import hu.japy.gol.Point;
+import hu.japy.gol.board.GameOfLifeBoard;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,7 +19,8 @@ public class GameBoard extends JPanel implements Runnable {
 
     private final int sizeX;
     private final int sizeY;
-    private final Board board;
+    // private final Board board;
+    private final GameOfLifeBoard board;
 
     private boolean running = false;
 
@@ -30,7 +28,9 @@ public class GameBoard extends JPanel implements Runnable {
         this.setBackground(Color.WHITE);
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.board = new Board(this.sizeX, this.sizeY);
+        // this.board = new Board(this.sizeX, this.sizeY);
+        this.board = new GameOfLifeBoard(this.sizeX, this.sizeY);
+        new GameOfLifeBoard(this.sizeX, this.sizeY);
         this.addMouseListener(new MouseClickListener());
 
     }
@@ -42,7 +42,7 @@ public class GameBoard extends JPanel implements Runnable {
         g.setColor(Color.BLACK);
         for (int x = 0; x < this.sizeX; x++) {
             for (int y = 0; y < this.sizeY; y++) {
-                if (CellState.ALIVE.equals(this.board.getCellAt(x, y).getCurrentState())) {
+                if (this.board.getCellAt(x, y)) {
                     g.fillRect(x * SQUARE_SIZE + PADDING, y * SQUARE_SIZE + PADDING, SQUARE_SIZE, SQUARE_SIZE);
                 }
             }
@@ -57,22 +57,12 @@ public class GameBoard extends JPanel implements Runnable {
         }
     }
 
-    public void initBoard(java.util.List<Point> startingPoints) {
-        for (final Point point : startingPoints) {
-            addCell(point.getX(), point.getY());
-        }
-    }
-
     public void setRunning(boolean running) {
         this.running = running;
     }
 
     public void clearBoard() {
-        for (int i = 0; i < this.sizeX; i++) {
-            for (int j = 0; j < this.sizeY; j++) {
-                this.board.getCellAt(i, j).setCurrentState(CellState.DEAD);
-            }
-        }
+        this.board.resetBoard();
         updateBoard();
     }
 
@@ -85,31 +75,16 @@ public class GameBoard extends JPanel implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(300);
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
-            if (this.running && containsLiveCell(this.board)) {
+            if (this.running && this.board.containsLiveCell()) {
 
                 this.board.nextRound();
                 updateBoard();
             }
         }
-    }
-
-    private void addCell(int x, int y) {
-        this.board.getCellAt(x, y).setCurrentState(CellState.ALIVE);
-    }
-
-    private static boolean containsLiveCell(Board board) {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (CellState.ALIVE.equals(board.getCellAt(i, j).getCurrentState())) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public class MouseClickListener extends MouseAdapter {
@@ -118,21 +93,12 @@ public class GameBoard extends JPanel implements Runnable {
             if (GameBoard.this.running) {
                 return;
             }
-            final Cell cellAt = GameBoard.this.board
-                    .getCellAt(((me.getX() - PADDING) / SQUARE_SIZE), ((me.getY() - PADDING) / SQUARE_SIZE));
-            if (CellState.ALIVE == cellAt.getCurrentState()) {
-                cellAt.setCurrentState(CellState.DEAD);
-            } else {
-                cellAt.setCurrentState(CellState.ALIVE);
-            }
+            GameBoard.this.board.changeCellAt(((me.getX() - PADDING) / SQUARE_SIZE), ((me.getY() - PADDING) / SQUARE_SIZE));
             me.getComponent().revalidate();
             me.getComponent().repaint();
         }
     }
 
-    /**
-     * @return
-     */
     public static int getSquareDisplaySize() {
         return SQUARE_SIZE + PADDING;
     }
