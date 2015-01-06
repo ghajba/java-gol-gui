@@ -19,7 +19,6 @@ public class GameBoard extends JPanel implements Runnable {
 
     private final int sizeX;
     private final int sizeY;
-    // private final Board board;
     private final GameOfLifeBoard board;
 
     private boolean running = false;

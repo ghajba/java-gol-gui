@@ -47,8 +47,8 @@ public class GameOfLifeBoard {
     }
 
     public boolean containsLiveCell() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
                 if (this.board[i][j] == 1) {
                     return true;
                 }
