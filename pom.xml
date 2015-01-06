@@ -34,8 +34,8 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -44,8 +44,8 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>hu.hajba.gol.Main</mainClass>
-                            <packageName>hu.hajba.gol</packageName>
+                            <mainClass>hu.japy.gol.Main</mainClass>
+                            <packageName>hu.japy.gol</packageName>
                         </manifest>
                         <manifestEntries>
                             <mode>development</mode>
